@@ -1,0 +1,17 @@
+{
+    "verbose": true,
+    "ignore": [
+        "src/**/*.test.ts",
+        "dist/**",
+        ".git",
+        "node_modules/**/node_modules"
+    ],
+    "watch": [
+        "src",
+        "package*.json"
+    ],
+    "execMap": {
+        "ts": "ts-node"
+    },
+    "ext": "ts,json"
+}

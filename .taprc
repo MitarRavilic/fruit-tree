@@ -1,0 +1,12 @@
+# vim: set filetype=yaml :
+coverage-report:
+  - html
+timeout: 30
+jobs: 8
+include:
+  - "**/*.test.ts"
+exclude:
+  - "**/@(fixture*(s)|dist)/**"
+snapshot-clean-cwd: true
+color: true
+reporter: tap

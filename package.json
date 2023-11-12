@@ -1,0 +1,35 @@
+{
+    "name": "@passionfruit/fruit-tree",
+    "version": "0.0.0",
+    "description": "Modular Monolith for Passionfruit",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon index.ts",
+        "test": "tap",
+        "test:lint": "eslint . --ext .ts",
+        "test:lint:fix": "eslint . --ext .ts --fix",
+        "test:format": "prettier --check .",
+        "test:format:fix": "prettier --write ."
+    },
+    "author": "Carlos Fuentes <me@metcoder.dev> (https://metcoder.dev/)",
+    "license": "SEE LICENSE IN LICENSE.txt",
+    "dependencies": {
+        "@aws-sdk/client-dynamodb": "^3.449.0",
+        "@aws-sdk/client-s3": "^3.449.0",
+        "@fastify/multipart": "^8.0.0",
+        "config": "^3.3.9",
+        "fastify": "^4.24.3"
+    },
+    "devDependencies": {
+        "@types/config": "^3.3.3",
+        "@typescript-eslint/eslint-plugin": "^6.10.0",
+        "@typescript-eslint/parser": "^6.10.0",
+        "eslint": "^8.53.0",
+        "eslint-config-prettier": "^9.0.0",
+        "nodemon": "^3.0.1",
+        "prettier": "^3.0.3",
+        "tap": "^18.5.7",
+        "ts-node": "^10.9.1",
+        "typescript": "^5.2.2"
+    }
+}
