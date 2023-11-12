@@ -6,10 +6,7 @@
         ".git",
         "node_modules/**/node_modules"
     ],
-    "watch": [
-        "src",
-        "package*.json"
-    ],
+    "watch": ["src", "package*.json"],
     "execMap": {
         "ts": "ts-node"
     },
