@@ -40,7 +40,8 @@ jobs:
                   npm run test:format
 
     test:
-        name: Format Checks
+        name: Testing
+        needs: lint
         runs-on: ubuntu-latest
         permissions:
             contents: read
