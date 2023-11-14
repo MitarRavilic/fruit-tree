@@ -1,5 +1,6 @@
 import config from 'config';
 
+
 import { app } from './src';
 
 const port = config.get<number>('port');

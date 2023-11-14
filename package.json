@@ -4,7 +4,7 @@
     "description": "Modular Monolith for Passionfruit",
     "main": "index.js",
     "scripts": {
-        "start": "nodemon index.ts",
+        "start": "nodemon -r dotenv/config index.ts",
         "test": "tap",
         "test:lint": "eslint . --ext .ts",
         "test:lint:fix": "eslint . --ext .ts --fix",
@@ -30,6 +30,7 @@
         "prettier": "^3.0.3",
         "tap": "^18.5.7",
         "ts-node": "^10.9.1",
-        "typescript": "^5.2.2"
+        "typescript": "^5.2.2",
+        "dotenv": "^16.3.1"
     }
 }
