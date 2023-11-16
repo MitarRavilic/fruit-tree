@@ -8,14 +8,15 @@ export function Application(
     done: (err?: Error) => void
 ) {
     fastify.register(V1, { prefix: '/v1' });
-    fastify.register(swagger, {  swagger: {
-        info: {
-          title: 'Passionfruit API',
-          description: 'API for Passionfruit',
-          version: 'v1',
+    fastify.register(swagger, {
+        swagger: {
+            info: {
+                title: 'Passionfruit API',
+                description: 'API for Passionfruit',
+                version: 'v1',
+            },
+            basePath: '/docs',
         },
-        basePath: '/docs'
-    },
-});
+    });
     done();
 }
