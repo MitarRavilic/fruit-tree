@@ -9,7 +9,9 @@
         "test:lint": "eslint . --ext .ts",
         "test:lint:fix": "eslint . --ext .ts --fix",
         "test:format": "prettier --check .",
-        "test:format:fix": "prettier --write ."
+        "test:format:fix": "prettier --write .",
+        "pre-commit": "npm run lint && npm run format && echo 'finished pre-commit script'",
+        "commit-msg": "commitlint --edit $HUSKY_GIT_PARAMS"
     },
     "author": "Carlos Fuentes <me@metcoder.dev> (https://metcoder.dev/)",
     "license": "SEE LICENSE IN LICENSE.txt",
@@ -28,6 +30,7 @@
         "dotenv": "^16.3.1",
         "eslint": "^8.53.0",
         "eslint-config-prettier": "^9.0.0",
+        "husky": "^8.0.3",
         "nodemon": "^3.0.1",
         "prettier": "^3.0.3",
         "tap": "^18.5.7",
