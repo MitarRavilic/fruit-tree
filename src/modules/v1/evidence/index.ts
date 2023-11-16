@@ -4,6 +4,7 @@ import s3 from '../s3/s3.config';
 import { GetObjectCommand, ListObjectsV2Command, PutObjectCommand } from '@aws-sdk/client-s3';
 import { S3_PREFIX_EVIDENCE } from './const';
 import { DownloadParams } from './interface';
+import config from 'config';
 
 export function EvidenceModule(
     fastify: FastifyInstance,
@@ -21,8 +22,8 @@ export function EvidenceModule(
         const fileContent = await data.toBuffer();
 
         const params = new PutObjectCommand({
-            Bucket: process.env.AWS_BUCKET_NAME,
-            Key: `evidence/${data.filename}`,
+            Bucket: config.get<string>('aws.s3.bucket'),
+            Key: `${S3_PREFIX_EVIDENCE}${data.filename}`,
             Body: fileContent,
         });
 
@@ -43,8 +44,8 @@ export function EvidenceModule(
     
         for await (const file of filesIterator) {
             const putCommand = new PutObjectCommand({
-                Bucket: 'your-bucket-name',
-                Key: `your-folder/${file.filename}`,
+                Bucket: config.get<string>('aws.s3.bucket'),
+                Key: `${S3_PREFIX_EVIDENCE}${file.filename}`,
                 Body: file.file, // Stream the file directly
             });
     
@@ -64,7 +65,7 @@ export function EvidenceModule(
     fastify.get('/list-evidence', async (request, reply) => {
         try {
             const listParams = {
-                Bucket: process.env.AWS_S3_BUCKET, 
+                Bucket: config.get<string>('aws.s3.bucket'), 
                 Prefix: S3_PREFIX_EVIDENCE // This filters objects starting with 'evidence/'
             };
     
@@ -91,7 +92,7 @@ export function EvidenceModule(
     
         try {
             const getParams = {
-                Bucket: process.env.AWS_S3_BUCKET, 
+                Bucket: config.get<string>('aws.s3.bucket'), 
                 Key: key
             };
     

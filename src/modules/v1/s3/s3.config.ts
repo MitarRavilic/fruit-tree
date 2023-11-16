@@ -1,20 +1,26 @@
 import { S3 } from "@aws-sdk/client-s3";
+import config from 'config';
+import { AppConfig } from "../app.config";
 
-// Load environment variables
-const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, AWS_S3_BUCKET } = process.env;
+// Load AWS configuration using config
+const awsConfig = config.get('aws') as AppConfig['aws'];
 
-// Throw an error if any of the required environment variables are missing
-if (!AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY || !AWS_REGION || !AWS_S3_BUCKET) {
-  throw new Error('Missing required environment variables for S3 client setup');
+// Extract AWS configuration values
+const { accessKeyId, secretAccessKey, region } = awsConfig;
+const s3Bucket = awsConfig.s3.bucket;
+
+// Throw an error if any of the required configuration variables are missing
+if (!accessKeyId || !secretAccessKey || !region || !s3Bucket) {
+  throw new Error('Missing required configuration variables for S3 client setup');
 }
 
 // Set up the S3 client
 const s3 = new S3({
     credentials: {
-        accessKeyId: AWS_ACCESS_KEY_ID,
-        secretAccessKey: AWS_SECRET_ACCESS_KEY
+        accessKeyId: accessKeyId,
+        secretAccessKey: secretAccessKey
     },
-    region: AWS_REGION,
+    region: region,
 });
 
 // Export the S3 client
