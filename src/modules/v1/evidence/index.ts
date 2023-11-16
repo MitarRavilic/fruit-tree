@@ -13,7 +13,7 @@ export function EvidenceModule(
 ) {
     // Register fastify modules
     fastify.register(fastifyMultipart);
-    
+    // upload single file
     fastify.post('/upload', async (request, reply) => {
         const data = await request.file();
         if(!data) {
@@ -28,14 +28,13 @@ export function EvidenceModule(
         });
 
         // Upload the file to S3
-        s3.send(params, function(err, data) {
-            if (err) {
-                console.error(err);
-                reply.code(400).send({ message: 'Error uploading file' });
-            } else {
-                reply.send({ message: 'File uploaded successfully', data });
-            }
-        });
+        try {
+            const data = await s3.send(params);
+            reply.send({ message: 'File uploaded successfully', data });
+        } catch (err) {
+            console.error(err);
+            reply.code(400).send({ message: 'Error uploading file' });
+        }
     });
 
     fastify.post('/uploadMany', async (request, reply) => {
