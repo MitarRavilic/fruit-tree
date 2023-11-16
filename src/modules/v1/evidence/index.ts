@@ -12,31 +12,6 @@ export function EvidenceModule(
 ) {
     // Register fastify modules
     fastify.register(fastifyMultipart);
-
-    /**
-     * Each route can be decompose within a module/file
-     * This is just for demo purposes
-     */
-    fastify.get('/', async (request, reply) => {
-        reply.send({ hello: 'world' });
-    });
-
-    fastify.get(
-        '/:id',
-        {
-            schema: {
-                params: {
-                    type: 'object',
-                    properties: {
-                        id: { type: 'string' },
-                    },
-                },
-            },
-        },
-        async (request, reply) => {
-            reply.send({ hello: 'world' });
-        }
-    );
     
     fastify.post('/upload', async (request, reply) => {
         const data = await request.file();
@@ -55,7 +30,7 @@ export function EvidenceModule(
         s3.send(params, function(err, data) {
             if (err) {
                 console.error(err);
-                reply.send({ message: 'Error uploading file' });
+                reply.code(400).send({ message: 'Error uploading file' });
             } else {
                 reply.send({ message: 'File uploaded successfully', data });
             }
@@ -82,7 +57,7 @@ export function EvidenceModule(
             reply.send({ message: 'Files uploaded successfully' });
         } catch (err) {
             console.error(err);
-            reply.send({ message: 'Error uploading files' });        }
+            reply.code(400).send({ message: 'Error uploading files' });        }
     });
 
 
@@ -105,12 +80,13 @@ export function EvidenceModule(
             reply.send({ files });
         } catch (err) {
             console.error(err)
-            reply.code(500).send(err);
+            reply.code(400).send();
         }
     });
 
-    fastify.get<{Params: DownloadParams}>('/download/:fileName', async (request, reply) => {
-        const fileName = request.params.fileName;
+    // Download a file by filename
+    fastify.post<{ Body: DownloadParams }>('/download', async (request, reply) => {
+        const fileName = request.body.fileName;
         const key = `${S3_PREFIX_EVIDENCE}${fileName}`; // Construct the file key
     
         try {
@@ -129,8 +105,8 @@ export function EvidenceModule(
                 reply.code(404).send('File not found');
             }
         } catch (err) {
-            console
-            reply.code(500).send(err);
+            console.error(err)
+            reply.code(400).send();
         }
     });
     
