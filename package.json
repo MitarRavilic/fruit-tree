@@ -10,6 +10,9 @@
         "test:lint:fix": "eslint . --ext .ts --fix",
         "test:format": "prettier --check .",
         "test:format:fix": "prettier --write .",
+        "format": "prettier --write \"src/**/*.ts\"",
+        "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+        "prepare": "husky install",
         "pre-commit": "npm run lint && npm run format && echo 'finished pre-commit script'",
         "commit-msg": "commitlint --edit $HUSKY_GIT_PARAMS"
     },
@@ -24,6 +27,8 @@
         "fastify": "^4.24.3"
     },
     "devDependencies": {
+        "@commitlint/cli": "^18.4.2",
+        "@commitlint/config-conventional": "^18.4.2",
         "@types/config": "^3.3.3",
         "@typescript-eslint/eslint-plugin": "^6.10.0",
         "@typescript-eslint/parser": "^6.10.0",
