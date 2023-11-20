@@ -136,38 +136,38 @@ export const deleteManySchema: FastifySchema = {
     tags: ['Evidences'],
     summary: 'Delete multiple evidence files',
     body: {
-      type: 'object',
-      required: ['fileNames'],
-      properties: {
-        fileNames: {
-          type: 'array',
-          items: {
-            type: 'string'
-          },
-          description: 'Array of filenames to be deleted'
-        }
-      }
+        type: 'object',
+        required: ['fileNames'],
+        properties: {
+            fileNames: {
+                type: 'array',
+                items: {
+                    type: 'string',
+                },
+                description: 'Array of filenames to be deleted',
+            },
+        },
     },
     response: {
-      200: {
-        description: 'Files deleted successfully',
-        type: 'object',
-        properties: {
-          message: { type: 'string' }
-        }
-      },
-      400: {
-        description: 'Error deleting some files',
-        type: 'object',
-        properties: {
-          message: { type: 'string' },
-          errors: {
-            type: 'array',
-            items: {
-              type: 'string'
-            }
-          }
-        }
-      }
-    }
-  };
+        200: {
+            description: 'Files deleted successfully',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        400: {
+            description: 'Error deleting some files',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+                errors: {
+                    type: 'array',
+                    items: {
+                        type: 'string',
+                    },
+                },
+            },
+        },
+    },
+};

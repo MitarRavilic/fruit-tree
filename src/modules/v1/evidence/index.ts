@@ -55,37 +55,40 @@ export function EvidenceModule(
         }
     );
 
-fastify.post('/uploadMany', { schema: uploadManySchema }, async (request, reply) => {
-    const filesIterator = request.files(); // Get an asynchronous iterator for the files
-    const uploadPromises = [];
+    fastify.post(
+        '/uploadMany',
+        { schema: uploadManySchema },
+        async (request, reply) => {
+            const filesIterator = request.files(); // Get an asynchronous iterator for the files
+            const uploadPromises = [];
 
-    for await (const file of filesIterator) {
-        const uploader = new Upload({
-            client: s3,
-            params: {
-                Bucket: config.get<string>('aws.s3.bucket'),
-                Key: `${S3_PREFIX_EVIDENCE}${file.filename}`,
-                Body: file.file,
-            },
-        });
+            for await (const file of filesIterator) {
+                const uploader = new Upload({
+                    client: s3,
+                    params: {
+                        Bucket: config.get<string>('aws.s3.bucket'),
+                        Key: `${S3_PREFIX_EVIDENCE}${file.filename}`,
+                        Body: file.file,
+                    },
+                });
 
-        uploadPromises.push(uploader.done());
-    }
+                uploadPromises.push(uploader.done());
+            }
 
-    try {
-        if (uploadPromises.length === 0) {
-            return reply
-                .code(400)
-                .send({ message: 'No files uploaded' });
+            try {
+                if (uploadPromises.length === 0) {
+                    return reply
+                        .code(400)
+                        .send({ message: 'No files uploaded' });
+                }
+                await Promise.all(uploadPromises);
+                reply.send({ message: 'Files uploaded successfully' });
+            } catch (err) {
+                console.error(err);
+                reply.code(400).send({ message: 'Error uploading files' });
+            }
         }
-        await Promise.all(uploadPromises);
-        reply.send({ message: 'Files uploaded successfully' });
-    } catch (err) {
-        console.error(err);
-        reply.code(400).send({ message: 'Error uploading files' });
-    }
-});
-
+    );
 
     fastify.get(
         '/list',
