@@ -5,7 +5,6 @@
     "main": "index.js",
     "scripts": {
         "start": "nodemon -r dotenv/config index.ts",
-        "build": "tsc",
         "test": "tap",
         "test:lint": "eslint . --ext .ts",
         "test:lint:fix": "eslint . --ext .ts --fix",
@@ -15,7 +14,10 @@
         "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
         "prepare": "husky install",
         "pre-commit": "npm run lint && npm run format && echo 'finished pre-commit script'",
-        "commit-msg": "commitlint --edit $HUSKY_GIT_PARAMS"
+        "commit-msg": "commitlint --edit $HUSKY_GIT_PARAMS",
+        "build": "tsc",
+        "serve": "node -r dotenv/config index.ts"
+
     },
     "author": "Carlos Fuentes <me@metcoder.dev> (https://metcoder.dev/)",
     "license": "SEE LICENSE IN LICENSE.txt",
@@ -32,6 +34,8 @@
     "devDependencies": {
         "@commitlint/cli": "^18.4.2",
         "@commitlint/config-conventional": "^18.4.2",
+        "@pulumi/aws": "^6.9.0",
+        "@pulumi/pulumi": "^3.94.2",
         "@types/config": "^3.3.3",
         "@typescript-eslint/eslint-plugin": "^6.10.0",
         "@typescript-eslint/parser": "^6.10.0",
@@ -41,6 +45,7 @@
         "husky": "^8.0.3",
         "nodemon": "^3.0.1",
         "prettier": "^3.0.3",
+        "rimraf": "^5.0.5",
         "tap": "^18.5.7",
         "ts-node": "^10.9.1",
         "typescript": "^5.2.2"
